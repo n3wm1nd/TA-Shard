@@ -154,7 +154,7 @@ function TaskQueueBehaviour:ProgressQueue()
 			
 			if utype ~= "next" then
 				if value ~= nil then
-				  game:SendToConsole("Value is "..value)
+				--game:SendToConsole("Value is "..value)
 					utype = game:GetTypeByName(value)
 				else
 					utype = nil
