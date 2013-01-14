@@ -1,0 +1,53 @@
+require "taskqueues"
+require "taskqueuebehaviour"
+require "attackerbehaviour"
+--require "raiderbehaviour"
+require "autoreclaimbehaviour"
+require "runfromattack"
+require "mexupgradebehaviour"
+
+behaviours = {
+  	armcom = {
+		TaskQueueBehaviour,
+		--RunFromAttackBehaviour,
+	},
+	armck = {
+		TaskQueueBehaviour,
+		--RunFromAttackBehaviour,
+	},
+
+	armrectr = {
+		TaskQueueBehaviour,
+		autoreclaimbehaviour,
+		--RunFromAttackBehaviour,
+	},
+--]]
+	armack = {
+		TaskQueueBehaviour,
+		MexUpgradeBehaviour,
+		--RunFromAttackBehaviour,
+	},
+}
+
+function defaultBehaviours(unit)
+		b = {}
+	
+	u = unit:Internal()
+	if u:CanBuild() then
+		-- moho engineer doesn't need the queue!
+		if u:Name() ~= "armack" then
+			table.insert(b,TaskQueueBehaviour)
+		end
+		if u:CanMove() then
+			local utype = game:GetTypeByName("cormex")
+			if u:CanBuild(utype) then
+				--table.insert(b, RunFromAttackBehaviour)
+			end
+		end
+	else
+		if IsAttacker(unit) then
+			table.insert(b,AttackerBehaviour)
+		end
+	end
+	return b
+end

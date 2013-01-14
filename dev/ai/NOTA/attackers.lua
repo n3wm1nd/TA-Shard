@@ -1,0 +1,33 @@
+--[[
+Attackers!
+]]--
+
+attackerlist = {
+	"corak",
+	"armpw",
+	"corthud",
+	"armham",
+	"corraid",
+	"armstump",
+	"corshad",
+	"armthund",
+	"correap",
+	"armbull",
+	"corstorm",
+	"armrock",
+	"cormart",
+	"armmart",
+	"cormort",
+	"corpyro",
+	"corcrash",
+	"armjeth",
+	"armwar",
+	"cormak",
+	"armsnipe",
+	"armzeus",
+	"corlevlr",
+	"corsent",
+	"corsumo",
+	"corcan",
+	"corcrabe",
+}
