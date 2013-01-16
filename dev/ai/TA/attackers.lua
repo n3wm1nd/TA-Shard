@@ -6,6 +6,7 @@ attackerlist = {
 	"corak",
 -- arm units
 	"armpw",
+	"aexxec",
 	"armpw1",
 	"armcrack",
 	"armjeth",

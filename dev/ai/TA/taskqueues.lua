@@ -17,6 +17,8 @@ math.randomseed( os.time() + game:GetTeamID() )
 math.random(); math.random(); math.random()
 
 local lastCheckFrame = 0
+local hasRC = ""
+
 
 function BuildWindSolarIfNeeded()
 	-- check if we need power
@@ -69,6 +71,28 @@ function BuildWithLimitedNumber(tmpUnitName, minNumber)
 		return DummyUnitName
 	else
 		return tmpUnitName
+	end
+end
+
+function BuildIfRC(UnitName,RCname)
+	hasRC = DummyUnitName
+	ownUnits = game:GetFriendlies()
+	for _, u in pairs(ownUnits) do
+		un = u:Name()
+			if un == RCname then
+			hasRC = UnitName
+			break
+			end
+	end
+	return hasRC
+end
+
+function RandomBuild(Unitone,Unittwo)
+	local r = math.random(0,1)
+	if r == 0
+		return Unitone
+	else
+		return Unittwo
 	end
 end
 
@@ -138,6 +162,14 @@ end
 
 local function Buildonly1RC()
 	return BuildWithLimitedNumber("armrech3", 1)
+end
+
+local function BuildAexxec()
+	return BuildIfRC("aexxec","armrech3")
+end
+
+local function BuildRandompworarmham()
+	return RandomBuild("armpw","armham")
 end
 
 taskqueues = {
@@ -218,6 +250,7 @@ taskqueues = {
 		--"armrectr",
 		"armpw",
 		"armpw",
+		--BuildAexxec, testing
 		"armpw",
 		"armpw",
 		"armham",
@@ -264,6 +297,7 @@ taskqueues = {
 		"armrock",
 		"armrock",
 		"armrock",
+		BuildAexxec,
 		"armpw1",
 		"armpw1",
 		"armpw1",
