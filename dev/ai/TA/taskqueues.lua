@@ -87,9 +87,22 @@ function BuildIfRC(UnitName,RCname)
 	return hasRC
 end
 
+function BuildIfNotRC(UnitName,RCname)
+	hasRC = UnitName
+	ownUnits = game:GetFriendlies()
+	for _, u in pairs(ownUnits) do
+		un = u:Name()
+			if un == RCname then
+			hasRC = DummyUnitName
+			break
+			end
+	end
+	return hasRC
+end
+
 function RandomBuild(Unitone,Unittwo)
 	local r = math.random(0,1)
-	if r == 0
+	if r == 0 then
 		return Unitone
 	else
 		return Unittwo
