@@ -74,7 +74,7 @@ function BuildWithLimitedNumber(tmpUnitName, minNumber)
 	end
 end
 
-function BuildIfRC(UnitName,RCname)
+function BuildIfAlreadyOwn(UnitName,RCname)
 	hasRC = DummyUnitName
 	ownUnits = game:GetFriendlies()
 	for _, u in pairs(ownUnits) do
@@ -87,7 +87,7 @@ function BuildIfRC(UnitName,RCname)
 	return hasRC
 end
 
-function BuildIfNotRC(UnitName,RCname)
+function BuildIfDontAlreadyOwnC(UnitName,RCname)
 	hasRC = UnitName
 	ownUnits = game:GetFriendlies()
 	for _, u in pairs(ownUnits) do
@@ -178,7 +178,7 @@ local function Buildonly1RC()
 end
 
 local function BuildAexxec()
-	return BuildIfRC("aexxec","armrech3")
+	return BuildIfAlreadyOwn("aexxec","armrech3")
 end
 
 local function BuildRandompworarmham()
