@@ -1,7 +1,7 @@
 require "taskqueues"
 require "taskqueuebehaviour"
 require "attackerbehaviour"
---require "raiderbehaviour"
+require "raiderbehaviour"
 require "autoreclaimbehaviour"
 require "runfromattack"
 require "mexupgradebehaviour"
@@ -46,7 +46,10 @@ function defaultBehaviours(unit)
 		end
 	else
 		if IsAttacker(unit) then
-			table.insert(b,AttackerBehaviour)
+			table.insert(b, AttackerBehaviour)
+		end
+		if IsRaider(unit) then
+			table.insert(b, RaiderBehaviour)
 		end
 	end
 	return b

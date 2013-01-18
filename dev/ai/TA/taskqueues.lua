@@ -244,6 +244,10 @@ taskqueues = {
 	},     
 	armlab = { -- arm kbot lab
 		--"armrectr",
+		"armflea",
+		"armflea",
+		"armflea",
+		"armflea",
 		"armck",
 		"armck",
 		--"armrectr",
