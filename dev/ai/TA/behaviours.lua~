@@ -39,7 +39,7 @@ function defaultBehaviours(unit)
 			table.insert(b,TaskQueueBehaviour)
 		end
 		if u:CanMove() then
-			local utype = game:GetTypeByName("cormex")
+			local utype = game:GetTypeByName("armmex")
 			if u:CanBuild(utype) then
 				--table.insert(b, RunFromAttackBehaviour)
 			end

@@ -1,7 +1,9 @@
 --[[
 Task Queues!
 ]]--
-require "unitlists"
+
+-- this unit is not buildable, but valid, so it's used when we need to tell the AI to NOT build what it wants
+DummyUnitName = "armcom"
 
 local DebugEnabled = false
 
@@ -15,6 +17,8 @@ math.randomseed( os.time() + game:GetTeamID() )
 math.random(); math.random(); math.random()
 
 local lastCheckFrame = 0
+local hasRC = ""
+
 
 function BuildWindSolarIfNeeded()
 	-- check if we need power
@@ -67,6 +71,41 @@ function BuildWithLimitedNumber(tmpUnitName, minNumber)
 		return DummyUnitName
 	else
 		return tmpUnitName
+	end
+end
+
+function BuildIfAlreadyOwn(UnitName,RCname)
+	hasRC = DummyUnitName
+	ownUnits = game:GetFriendlies()
+	for _, u in pairs(ownUnits) do
+		un = u:Name()
+			if un == RCname and unit:IsBeingBuilt(un) then
+			hasRC = UnitName
+			break
+			end
+	end
+	return hasRC
+end
+
+function BuildIfDontAlreadyOwn(UnitName,RCname)
+	hasRC = UnitName
+	ownUnits = game:GetFriendlies()
+	for _, u in pairs(ownUnits) do
+		un = u:Name()
+			if un == RCname then
+			hasRC = DummyUnitName
+			break
+			end
+	end
+	return hasRC
+end
+
+function RandomBuild(Unitone,Unittwo)
+	local r = math.random(0,1)
+	if r == 0 then
+		return Unitone
+	else
+		return Unittwo
 	end
 end
 
@@ -138,6 +177,34 @@ local function Buildonly1RC()
 	return BuildWithLimitedNumber("armrech3", 1)
 end
 
+local function BuildAdvUnitAexxec()
+	return BuildIfAlreadyOwn("aexxec","armrech3")
+end
+
+local function BuildAdvPw()
+	return BuildIfAlreadyOwn("armpw1","armrech3")
+end
+
+local function BuildBasicDefense()
+	return BuildWithExtraMetalIncome("armllt",5)
+end
+
+local function BuildBasicAADefense()
+	return BuildWithExtraMetalIncome("armrl",5)
+end
+
+local function BuildAdvArmcrack()
+	return BuildIfAlreadyOwn("armcrack","armrech3")
+end
+
+local function BuildBasicPw()
+	return BuildIfDontAlreadyOwn("armpw","armrech3")
+end
+
+local function BuildRandomPwOrArmham()
+	return RandomBuild("armpw","armham")
+end
+
 taskqueues = {
 -- arm units
 	armcom = { -- commander
@@ -162,8 +229,7 @@ taskqueues = {
 		"armllt",
 		"armrad",
 		"armmex",
-		ArmWindSolar,
-		"armrl",
+		BuildBasicAADefense,
 		"armmex",
 		ArmWindSolar,
 		ArmMetalMaker,
@@ -176,9 +242,9 @@ taskqueues = {
 		ArmMetalMaker,
 		ArmMetalMaker,
 		"armmex",
-		"armllt",
+		BuildBasicDefense,
 		"armmex",
-		"armllt",
+		BuildBasicDefense,
 		"armrad",
 		DoSomethingForTheEconomy,
 		ArmWindSolar,
@@ -196,52 +262,48 @@ taskqueues = {
 		  "armca",
 	},     
 	armlab = { -- arm kbot lab
+		    BuildAdvArmcrack,
 		--"armrectr",
+		"armflea",
+		"armflea",
+		"armflea",
+		"armflea",
 		"armck",
 		"armck",
+		BuildRandomPwOrArmham,
+		BuildRandomPwOrArmham,
 		--"armrectr",
 		--"armrectr",
-		"armpw",
-		"armpw",
+		BuildBasicPw,
+		BuildBasicPw,
 		"armwar",
 		"armrock",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armpw",
+		BuildBasicPw,
+		BuildBasicPw,
+		BuildBasicPw,
+		BuildBasicPw,
+		BuildBasicPw,
+		BuildBasicPw,
+		BuildBasicPw,
 		--"armrectr",
 		--"armrectr",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armpw",
+		BuildBasicPw,
+		BuildBasicPw,
+		--BuildAdvUnitAexxec, testing
+		BuildBasicPw,
+		BuildBasicPw,
 		"armham",
 		"armham",
 		"armham",
-		"armpw",
-		"armpw",
+		BuildBasicPw,
+		BuildBasicPw,
 		"armrock",
 		"armrock",
 		"armrock",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armham",
-		"armham",
-		"armham",
-		"armjeth",
-		"armjeth",
-		"armrock",
-		"armrock",
-		"armrock",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armpw",
+		BuildBasicPw,
+		BuildBasicPw,
+		BuildBasicPw,
+		BuildBasicPw,
 		"armham",
 		"armham",
 		"armham",
@@ -250,58 +312,48 @@ taskqueues = {
 		"armrock",
 		"armrock",
 		"armrock",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armpw",
-		"armham",
-		"armham",
-		"armham",
-		"armjeth",
-		"armjeth",
-		"armrock",
-		"armrock",
-		"armrock",
-		"armpw1",
-		"armpw1",
-		"armpw1",
-		"armpw1",
-		"armcrack",
-		"armcrack",
-		"armcrack",
-		"armpw1",
-		"armpw1",
-		"armpw1",
-		"armpw1",
-		"armcrack",
-		"armcrack",
-		"armcrack",
-		"armpw1",
-		"armpw1",
-		"armpw1",
-		"armpw1",
-		"armcrack",
-		"armcrack",
-		"armcrack",
-		"armpw1",
-		"armpw1",
-		"armpw1",
-		"armpw1",
-		"armcrack",
-		"armcrack",
-		"armcrack",
+		--BuildAdvUnitAexxec,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvArmcrack,
+		BuildAdvArmcrack,
+		BuildAdvArmcrack,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvArmcrack,
+		BuildAdvArmcrack,
+		BuildAdvArmcrack,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvArmcrack,
+		BuildAdvArmcrack,
+		BuildAdvArmcrack,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvPw,
+		BuildAdvArmcrack,
+		BuildAdvArmcrack,
+		BuildAdvArmcrack,
 	},
 	armck = { -- arm construction kbot
+		Buildonly1RC,
 		ArmWindSolar,
 		"armmex",
-		"armllt",
-		"armrl",
+		BuildBasicDefense,
+		BuildBasicAADefense,
 		ArmWindSolar,
 		ArmMetalMaker,
 		"armmex",
 		"tawf001",
 		"armmex",
-		"armllt",
+		--"armllt",
 		"armrad",
 		ArmWindSolar,
 		ArmWindSolar,
@@ -312,7 +364,9 @@ taskqueues = {
 		ArmMetalMaker,
 		"armmex",
 		"armmex",
-		"armllt",
+		BuildBasicDefense,
+		BuildBasicAADefense,
+
 		"tawf001",
 		--"armnanotc", -- nano tower TODO: when build, set to patrol
 		"armrad",

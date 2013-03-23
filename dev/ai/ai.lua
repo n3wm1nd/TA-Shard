@@ -10,14 +10,16 @@ function AI:Init()
 	game:SendToConsole("Shard by AF - playing:"..game:GameName().." on:"..game.map:MapName())
 
 	self.modules = {}
-	for i,m in ipairs(modules) do
-		newmodule = m()
-		local internalname = newmodule:internalName()
-		
-		self[internalname] = newmodule
-		table.insert(self.modules,newmodule)
-		newmodule:Init()
-		game:SendToConsole("added "..newmodule:Name().." module")
+	if next(modules) ~= nil then
+		for i,m in ipairs(modules) do
+			newmodule = m()
+			local internalname = newmodule:internalName()
+			
+			self[internalname] = newmodule
+			table.insert(self.modules,newmodule)
+			newmodule:Init()
+			game:SendToConsole("added "..newmodule:Name().." module")
+		end
 	end
 end
 
@@ -95,6 +97,18 @@ function AI:UnitDamaged(engineunit,engineattacker)
 	end
 	for i,m in ipairs(self.modules) do
 		m:UnitDamaged(engineunit,engineattacker)
+	end
+end
+
+function AI:UnitMoveFailed(engineunit)
+	if self.gameend == true then
+		return
+	end
+	if engineunit == nil then
+		return
+	end
+	for i,m in ipairs(self.modules) do
+		m:UnitMoveFailed(engineunit)
 	end
 end
 
